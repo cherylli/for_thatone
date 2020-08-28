@@ -8,8 +8,9 @@ export default function Home() {
    * To verify it's working, you could just console.log the state on every change
    */
 
-  const [count, setCount] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(10);
   const [text, setText] = useState('');
+  const [count, setCount] = useState(0);
 
   /**
    * Challenge 2:
@@ -21,7 +22,7 @@ export default function Home() {
 
   const CountWords = (event) => {
     setText(event.target.value);
-    setCount(text.split(' ').length);
+    setCount(text.split(/\s+/).length);
   };
 
   /**
@@ -31,6 +32,15 @@ export default function Home() {
    * 2. Create state to hold the current value of the countdown timer.
    * Display this time in the "Time Remaining" header
    */
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const countdown = setTimeout(() => {
+        setTimeLeft((timeLeft) => timeLeft - 1);
+      }, 1000);
+      return () => clearTimeout(countdown);
+    }
+  }, [timeLeft]);
 
   /**
    * Challenge 4:
@@ -58,7 +68,7 @@ export default function Home() {
         className={styles.textarea}
       />
 
-      <h2>Time Remaining: </h2>
+      <h2>Time Remaining: {timeLeft}</h2>
       <button className={styles.button}>Begin</button>
       <h1>Word Count: {count}</h1>
     </div>
