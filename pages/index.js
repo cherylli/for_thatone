@@ -11,6 +11,7 @@ export default function Home() {
   const [timeLeft, setTimeLeft] = useState(10);
   const [text, setText] = useState('');
   const [count, setCount] = useState(0);
+  const [isTimerRunning, setTimerRunning] = useState(false);
 
   /**
    * Challenge 2:
@@ -34,13 +35,21 @@ export default function Home() {
    */
 
   useEffect(() => {
-    if (timeLeft > 0) {
+    if (timeLeft > 0 && isTimerRunning) {
       const countdown = setTimeout(() => {
         setTimeLeft((timeLeft) => timeLeft - 1);
       }, 1000);
       return () => clearTimeout(countdown);
+    } else if (timeLeft <= 0) {
+      setTimerRunning(false);
     }
   }, [timeLeft]);
+
+  useEffect(() => {
+    if (isTimerRunning) {
+      setTimeLeft((timeLeft) => timeLeft - 1);
+    }
+  }, [isTimerRunning]);
 
   /**
    * Challenge 4:
@@ -69,7 +78,9 @@ export default function Home() {
       />
 
       <h2>Time Remaining: {timeLeft}</h2>
-      <button className={styles.button}>Begin</button>
+      <button onClick={() => setTimerRunning(true)} className={styles.button}>
+        Begin
+      </button>
       <h1>Word Count: {count}</h1>
     </div>
   );
