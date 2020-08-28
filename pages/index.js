@@ -42,12 +42,18 @@ export default function Home() {
       return () => clearTimeout(countdown);
     } else if (timeLeft <= 0) {
       setTimerRunning(false);
+      // display result
+      alert(`Time's Up: You typed ${count} words in 10 seconds`);
     }
   }, [timeLeft]);
 
   useEffect(() => {
     if (isTimerRunning) {
       setTimeLeft((timeLeft) => timeLeft - 1);
+    } else {
+      //reset timer
+      setTimeLeft(10);
+      setText('');
     }
   }, [isTimerRunning]);
 
