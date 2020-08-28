@@ -1,12 +1,15 @@
-import Head from "next/head";
-import { useState } from "react";
-import styles from "../styles/Home.module.css";
+import Head from 'next/head';
+import { useState, useEffect } from 'react';
+import styles from '../styles/Home.module.css';
 
 export default function Home() {
   /**
    * Challenge 1: Using hooks, track the state of the text in the textarea on every keystroke
    * To verify it's working, you could just console.log the state on every change
    */
+
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState('');
 
   /**
    * Challenge 2:
@@ -15,6 +18,11 @@ export default function Home() {
    * For now, just console.log the word count when the button gets clicked to test it out.
    *
    */
+
+  const CountWords = (event) => {
+    setText(event.target.value);
+    setCount(text.split(' ').length);
+  };
 
   /**
    *
@@ -41,11 +49,18 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>How fast can you type?</h1>
-      <textarea name="" id="" rows="10" className={styles.textarea} />
+      <textarea
+        onChange={CountWords}
+        value={text}
+        name=""
+        id=""
+        rows="10"
+        className={styles.textarea}
+      />
 
-      <h2>Time Remaining: ???</h2>
+      <h2>Time Remaining: </h2>
       <button className={styles.button}>Begin</button>
-      <h1>Word Count:</h1>
+      <h1>Word Count: {count}</h1>
     </div>
   );
 }
